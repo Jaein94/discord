@@ -10,6 +10,10 @@ import re # Regex for youtube link
 
 client = discord.Client() # Create Instance of Client. This Client is discord server's connection to Discord Room
 
+f = open("config.txt", 'r')
+key = f.readline().split(':')[-1].split("'")[1]
+print(key)
+f.close()
 opggsummonersearch = 'https://www.op.gg/summoner/userName='
 bot = commands.Bot(command_prefix='!')
 
@@ -28,7 +32,7 @@ def crawl(Id):
         serv = bsObject.find_all(attrs={"class": "profile-character-info__server"})
         job = bsObject.find('img', "profile-character-info__img")
         itemlv = bsObject.find_all("div", {"class": "level-info2__item"})[0].find_all("span")[1]
-        list_char.append([str(serv[0].get_text())[1:], name, job.attrs['alt'], float(itemlv.get_text()[3:].replace(',', ''))])
+        list_char.append([str(serv[0].get_text())[1:], name, job.attrs['alt'], float(itemlv.get_text()[3:].replace(',', '')), job.attrs['src']])
     list_char = sorted(list_char, key = lambda x : -1*x[3])
     
     return list_char
@@ -155,13 +159,11 @@ async def on_message(message): # on_message() event : when the bot has recieved 
         val_char_id = ""
         val_job = ""
         val_lv = ""
-        print(list_char)
+        # print(list_char)
         embed = discord.Embed(title = id + "님의 계정 정보",timestamp=datetime.datetime.utcnow(), color=discord.Color.blue())
-        name,cl,lv = list_char[0][1:]
-        if cl == "워로드":
-            embed.set_thumbnail(url = 'https://cdn.discordapp.com/emojis/875782759870763018.png?v=1')
-        elif cl == "버서커":
-            embed.set_thumbnail(url = 'https://cdn.discordapp.com/emojis/875782790086529024.png?v=1')
+        name,cl,lv,png_url = list_char[0][1:]
+        embed.set_thumbnail(url = png_url)
+            # embed.set_thumbnail(url = 'https://cdn.discordapp.com/emojis/875782790086529024.png?v=1')
         for idx in range(len(list_char)):
             # val_serv += list_char[idx][0] + "\n"
             val_char_id += list_char[idx][1] + "\n"
@@ -174,4 +176,4 @@ async def on_message(message): # on_message() event : when the bot has recieved 
         await message.channel.send(embed=embed)
 
 
-client.run('OTI0NTQ4MTc1OTIxMDQxNDA4.YcgKlg.GBF-L1Jpd8RC5aerWH_oPrRCxSY')
+client.run(key)
