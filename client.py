@@ -12,8 +12,8 @@ client = discord.Client() # Create Instance of Client. This Client is discord se
 
 f = open("config.txt", 'r')
 key = f.readline().split(':')[-1].split("'")[1]
-# print(key)
 f.close()
+opggsummonersearch = 'https://www.op.gg/summoner/userName='
 bot = commands.Bot(command_prefix='!')
 
 def crawl(Id):
@@ -21,7 +21,7 @@ def crawl(Id):
     html = urlopen(url)
     bsObject = BeautifulSoup(html, "html.parser")
     list_char = []
-    tmp = bsObject.select_one('div.profile-character-list').select('ul>li>span>button>span')
+    tmp = bsObject.select_one('div.profile-character-list').select('ul > li > span > button > span')
 
     for n in tmp:
         name = n.text
