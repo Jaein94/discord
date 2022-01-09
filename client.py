@@ -14,7 +14,6 @@ f = open("config.txt", 'r')
 key = f.readline().split(':')[-1].split("'")[1]
 print(key)
 f.close()
-opggsummonersearch = 'https://www.op.gg/summoner/userName='
 bot = commands.Bot(command_prefix='!')
 
 def crawl(Id):
