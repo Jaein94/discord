@@ -12,7 +12,7 @@ client = discord.Client() # Create Instance of Client. This Client is discord se
 
 f = open("config.txt", 'r')
 key = f.readline().split(':')[-1].split("'")[1]
-print(key)
+# print(key)
 f.close()
 bot = commands.Bot(command_prefix='!')
 
